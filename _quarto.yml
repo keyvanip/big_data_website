@@ -8,10 +8,12 @@ website:
     left:
       - href: index.qmd
         text: Introduction
-      - href: nlp.qmd
-        text: NLP
+      - href: data.qmd
+        text: Data
       - href: eda.qmd
         text: EDA
+      - href: nlp.qmd
+        text: NLP
       - text: ML
         menu:
           - href: lagged_ml.ipynb

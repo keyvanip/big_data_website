@@ -1,0 +1,64 @@
+## Objective
+
+The primary objective of this project was to leverage Reddit data as the foundational dataset and combine it with external data to derive meaningful insights that address our research questions. We aimed to explore relationships between customer sentiment, auto insurance metrics, and key behavioral indicators through integrated analysis. Using a serverless Spark cluster in Amazon SageMaker, we pre-processed, transformed, and analyzed the Reddit data. Subsequently, we merged it with external data using R and Python to create a unified dataset. This integration enabled us to perform clustering, sentiment analysis, and explore trends and patterns across various dimensions of interest, such as customer behavior, sentiment categories, and insurance claims.
+
+
+
+## Reddit Data
+
+The Reddit Archive dataset was used as our primary data source, encompassing a rich collection of user-generated content from the platform. This dataset spans from January 2022 to March 2023, covering a period before Reddit’s API policy changes. It is divided into two components:
+
+-   **Submissions**: Comprising 109 million entries, originally 412 GB of JSON data, and pre-processed into 14 GB of parquet files.
+
+-   **Comments**: Representing 701 million entries, originally 918 GB of JSON data, and pre-processed into 95 GB of parquet files.
+
+The Reddit data provided insight into public sentiment related to auto insurance topics, including claims, premiums, and customer experiences. Through filtering and topic-based analysis, we extracted discussions from subreddits such as **personalfinance**, **legaladvice**, and **cars**, which allowed us to focus on insurance-related themes. This enabled the extraction of sentiment scores and categorical labels such as *Positive, Negative, Neutral, Strong Positive*, and *Strong Negative*.
+
+By combining this data with our external dataset, we were able to analyze state-wise trends, monthly sentiment shifts, and correlations between sentiment and customer behavior. Additionally, the integration of these datasets allowed us to address questions about the relationships between historical sentiments and current auto insurance trends.
+
+
+## External Data
+
+Our external data came from [Kaggle](https://www.kaggle.com/datasets/thebumpkin/auto-insurance-claims-updated-to-2024). This dataset explores various perspectives on auto insurance claims, with the focus on how different metrics influence the total claim amount, monthly premium auto, and customer lifetime value, there’s 3,667 rows and 35 columns.
+
+The "Effective to Date" column includes data from January 2024 to October 2024. This dataset is close to our project objectives on customer behavior and auto insurance claims. Features like income, monthly premium auto, and total claim amount can be used for unsupervised learning to gain insights on customer behavior.
+
+This data consists of both categorical and numerical features. Categorical features include, among others: coverage type, vehicle class, customer demographics, etc. The numerical features include customer lifetime value, response to offers, insurance policies, claim amounts, and vehicle characteristics among other key variables. A summary table of these numerical data features follows.
+
+```{r, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
+library(kableExtra)
+library(tidyverse)
+```
+
+```{r, echo=FALSE}
+# Create a data frame with selected statistics and add variable types
+data_summary <- data.frame(
+  vars = c("Customer*", "State*", "Customer Lifetime Value", "Response*", "Coverage*", 
+           "Coverage Index", "Education*", "Education Index", "Effective To Date*", 
+           "Employment Status*", "Employment Status Index", "Gender*", "Income", 
+           "Location*", "Location Index", "Marital Status*", "Marital Status Index", 
+           "Monthly Premium Auto", "Months Since Last Claim", "Months Since Policy Inception", 
+           "Number of Open Complaints", "Number of Policies", "Policy Type*", 
+           "Policy Type Index", "Policy*", "Policy Index", "Renew Offer Type", 
+           "Sales Channel*", "Sales Channel Index", "Total Claim Amount", "Vehicle Class*", 
+           "Vehicle Class Index", "Vehicle Size*", "Vehicle Size Index"),
+  n = rep(3667, 34),
+  min = c(1, 1, 2563.22, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 82, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1.04, 1, 0, 1, 0),
+  max = c(3667, 5, 98855.04, 2, 3, 2, 5, 4, 24, 5, 4, 2, 134830, 3, 2, 3, 2, 402, 47, 134, 5, 9, 3, 2, 9, 8, 4, 4, 3, 3113.79, 6, 5, 3, 2),
+  mean = c(1834.00, 2.72, 10753.99, 1.12, 1.47, 0.47, 2.55, 1.26, 12.25, 2.79, 0.99, 1.49, 52217.89, 1.98, 0.98, 2.13, 0.87, 125.76, 20.10, 65.42, 0.35, 2.92, 1.82, 0.28, 4.79, 2.17, 1.98, 2.10, 1.63, 581.62, 3.02, 1.54, 2.09, 0.91),
+  median = c(1834.00, 2, 7786.92, 1, 1, 0, 2, 1, 12, 2, 1, 1, 48294.00, 2, 1, 2, 1, 111, 19, 65, 0, 2, 2, 0, 5, 2, 2, 2, 2, 509.28, 1, 1, 2, 1),
+  type = c("categorical", "categorical", "continuous", "categorical", "categorical", 
+           "continuous", "categorical", "continuous", "categorical", "categorical", 
+           "continuous", "categorical", "continuous", "categorical", "continuous", 
+           "categorical", "continuous", "continuous", "continuous", "continuous", 
+           "continuous", "continuous", "categorical", "continuous", "categorical", 
+           "continuous", "categorical", "categorical", "continuous", "continuous", 
+           "categorical", "continuous", "categorical", "continuous")
+)
+
+data_summary %>%
+  kable("html", col.names = c("Variable", "n", "Min", "Max", "Mean", "Median", "Type")) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+
