@@ -1,0 +1,226 @@
+---
+title: "Natural Language Processing"
+---
+
+This section outlines the approach taken to process and analyze Reddit data from selected subreddits, focusing on discussions involving auto and insurance topics. The process involved selecting relevant subreddits, filtering posts based on specific keywords and geographic locations, cleaning and preparing text data, and merging it with external datasets for advanced analysis. After preprocessing, the cleaned data comprised 1,523 observations and 12 variables.
+
+### Subreddit Selection and Filtering
+
+We began with data from five subreddits: personalfinance, legaladvice, cars, insurance, and insuranceclaims. Using criteria specific to the analysis, we reduced this list to the final three subreddits:
+
+1.  legaladvice
+2.  personalfinance
+3.  cars
+
+The filtering was justified based on the relevance of discussions to auto and insurance topics. Posts that did not meet these criteria (e.g., discussions unrelated to auto or insurance) were excluded.
+
+### Filtering by Keywords and Geographic Criteria
+
+Within each subreddit, submissions and comments were filtered for relevance. Posts and comments were retained if they:
+
+1.  Contained keywords related to auto (e.g., “car,” “vehicle”) or insurance (e.g., “insurance,” “claims”).
+
+2.  Referenced specific U.S. states: Arizona, California, Nevada, Oregon, and Washington.
+
+Below is the filtering code used for this step:
+
+```{r, eval=FALSE}
+from pyspark.sql.functions import col, when, regexp_extract
+
+# Define states and keywords
+states = ["Arizona", "California", "Nevada", "Oregon", "Washington"]
+keywords = ["car", "vehicle", "auto", "insurance", "claims"]
+
+# Filter Submissions
+filtered_submissions = df_submissions.filter(
+    col("subreddit").isin(["legaladvice", "personalfinance", "cars", "insuranceclaims"]) &
+    (col("title").rlike("|".join(keywords)) | col("selftext").rlike("|".join(keywords))) &
+    (col("title").rlike("|".join(states)) | col("selftext").rlike("|".join(states)))
+)
+
+# Extract state information
+filtered_submissions = filtered_submissions.withColumn(
+    "state", when(col("title").rlike("|".join(states)), regexp_extract(col("title"), "|".join(states), 0))
+    .otherwise(regexp_extract(col("selftext"), "|".join(states), 0))
+)
+
+# Combine titles and selftext into a single column
+filtered_submissions = filtered_submissions.withColumn(
+    "body", concat_ws(" ", col("title"), col("selftext"))
+).select("subreddit", "body", "state")
+
+filtered_submissions.show(5)
+```
+
+### Text Preprocessing and Cleaning
+
+The text data underwent several preprocessing steps to prepare it for Natural Language Processing (NLP). The steps included:
+
+1.  Cleaning: Removal of special characters, extra spaces, and numerical values.
+
+2.  Tokenization: Splitting text into individual words.
+
+3.  Stopword Removal: Eliminating common but irrelevant words like “the” and “is.”
+
+4.  Lemmatization: Converting words to their root forms (e.g., “running” → “run”).
+
+5.  Normalization: Converting text to lowercase and standardizing word forms.
+
+Below is the text preprocessing code:
+
+```{r, eval=FALSE}
+from pyspark.sql.functions import udf
+from pyspark.sql.types import StringType
+import spacy
+
+# Load spaCy language model
+nlp = spacy.load("en_core_web_sm")
+
+# Define preprocessing function
+def preprocess_text(text):
+    if text is None:
+        return ""
+    text = re.sub(r'[^A-Za-z\s]', '', str(text))  # Remove special characters
+    text = re.sub(r'\s+', ' ', text).strip()      # Remove extra spaces
+    doc = nlp(text.lower())                      # Tokenize and lowercase
+    tokens = [token.lemma_ for token in doc if not token.is_stop]  # Lemmatize and remove stopwords
+    return ' '.join(tokens)
+
+# Register UDF for preprocessing
+preprocess_udf = udf(preprocess_text, StringType())
+
+# Apply preprocessing to text column
+processed_data = filtered_submissions.withColumn("cleaned_body", preprocess_udf(col("body")))
+
+processed_data.show(5)
+```
+
+### Natural Language Processing (NLP) Analysis
+
+-   Sentiment Analysis: VADER (Valence Aware Dictionary and sEntiment Reasoner) was applied to determine the sentiment of posts and comments, categorizing them as Positive, Neutral, or Negative based on a compound score.
+
+```{r, eval=FALSE}
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+analyzer = SentimentIntensityAnalyzer()
+
+def vader_sentiment(text):
+    if not text:
+        return 0.0
+    return analyzer.polarity_scores(text)["compound"]
+
+# Apply sentiment scoring
+sentiment_udf = udf(vader_sentiment, FloatType())
+sentiment_data = processed_data.withColumn("compound_score", sentiment_udf(col("cleaned_body")))
+sentiment_data.show(5)
+```
+
+-   TF-IDF (Term Frequency-Inverse Document Frequency): Important words were identified by analyzing their relevance using TF-IDF scores.
+
+```{r, eval=FALSE}
+from pyspark.ml.feature import Tokenizer, HashingTF, IDF
+from pyspark.ml import Pipeline
+
+tokenizer = Tokenizer(inputCol="cleaned_body", outputCol="words")
+hashing_tf = HashingTF(inputCol="words", outputCol="raw_features", numFeatures=5000)
+idf = IDF(inputCol="raw_features", outputCol="features")
+
+pipeline = Pipeline(stages=[tokenizer, hashing_tf, idf])
+tfidf_model = pipeline.fit(processed_data)
+tfidf_data = tfidf_model.transform(processed_data)
+
+tfidf_data.select("cleaned_body", "features").show(5)
+```
+
+::: {.flourish-embed data-src="story/2768516"}
+```{=html}
+<script src="https://public.flourish.studio/resources/embed.js"></script>
+```
+<noscript><img src="https://public.flourish.studio/story/2768516/thumbnail" alt="visualization" width="100%"/></noscript>
+:::
+
+### Merging with External Data
+
+The merging of the Reddit data with the external auto insurance dataset was carried out in R, ensuring alignment across relevant temporal and geographic criteria. This step was critical to augmenting Reddit discussions with meaningful external insights, such as claims trends and insurance rates by state and time period. Two merged datasets were created to address different analytical scenarios: Current First Half Sentiment and Lagged Previous Second Half Sentiment.
+
+1.  Prepare External Data: The external data was filtered to exclude records from 2011 and transformed to include month and year variables extracted from the Effective To Date field.
+
+```{r, eval=FALSE}
+library(lubridate)
+library(dplyr)
+
+# Clean and transform external data
+external_data_filtered <- data %>%
+  mutate(
+    month = month(mdy(`Effective To Date`)),  # Parse "Month/Day/Year" format
+    year = year(mdy(`Effective To Date`))    # Extract year
+  ) %>%
+  select(-`Effective To Date`) %>%
+  rename(state = State) %>%
+  filter(year != 2011)  # Exclude records from 2011
+```
+
+2.  Aggregate Reddit Data: The Reddit data was grouped by month, year, and state, calculating average sentiment scores and classifications for each grouping.
+
+```{r, eval=FALSE}
+# Aggregate Reddit data
+reddit_data_aggregated2 <- reddit_data %>%
+  group_by(month, year, state) %>%
+  summarise(average_sent_score = mean(compound_score)) %>%
+  mutate(
+    average_sentiment = case_when(
+      average_sent_score >= 0.7 ~ "Strong Positive",
+      average_sent_score >= 0.05 & average_sent_score < 0.7 ~ "Positive",
+      average_sent_score > -0.05 & average_sent_score < 0.05 ~ "Neutral",
+      average_sent_score <= -0.05 & average_sent_score > -0.7 ~ "Negative",
+      average_sent_score <= -0.7 ~ "Strong Negative",
+      TRUE ~ "Undefined"
+    )
+  )
+```
+
+![](images/table.png)
+
+3.  Create Merged Datasets:
+
+    -   First Half Sentiment (1/24 - 6/24): This dataset merged external data from January to June 2024 with Reddit data from the same period.
+
+    -   Lagged Previous Second Half Sentiment (6/23 - 12/23 with 6/24 - 12/24): This dataset merged external data from June to December 2024 with Reddit data from the lagged period of June to December 2023.
+
+```{r, eval=FALSE}
+# First Half Sentiment
+first_half_sentiment <- external_data_filtered %>%
+  filter(year == 2024 & month >= 1 & month <= 6) %>%
+  left_join(
+    reddit_data_aggregated2 %>%
+      filter(year == 2024 & month >= 1 & month <= 6),
+    by = c("month", "year", "state")
+  ) %>%
+  rename(
+    avg_sentiment_score = average_sent_score,
+    avg_sentiment = average_sentiment
+  )
+
+# Lagged Previous Second Half Sentiment
+lagged_previous_second_half_sentiment <- external_data_filtered %>%
+  filter(year == 2024 & month >= 6 & month <= 12) %>%
+  left_join(
+    reddit_data_aggregated2 %>%
+      filter(year == 2023 & month >= 6 & month <= 12),
+    by = c("month", "state")  # Match on month and state, ignoring year
+  ) %>%
+  select(-year.y) %>%
+  rename(
+    year = year.x,
+    lagged_avg_sentiment_score = average_sent_score,
+    lagged_avg_sentiment = average_sentiment
+  )
+```
+
+The resulting datasets were saved as CSV files for further EDA visualizations and ML clustering
+
+```{r, eval=FALSE}
+# Save merged datasets
+write.csv(first_half_sentiment, "/Users/parsakeyvani/Downloads/big_data_project/Big_data_cleaned_datasets/current_first_half_merged.csv")
+write.csv(lagged_previous_second_half_sentiment, "/Users/parsakeyvani/Downloads/big_data_project/Big_data_cleaned_datasets/lagged_second_half_merged.csv")
+```

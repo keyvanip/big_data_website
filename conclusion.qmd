@@ -1,0 +1,11 @@
+---
+title: "Conclusion"
+---
+
+This project successfully addressed two key questions about customer sentiment in the auto insurance domain using clustering analysis. **In the Current Sentiment Clustering, we identified that wealthier customers tend to prefer comprehensive policies, and positive sentiments correlate with lower claim amounts**, indicating higher satisfaction and fewer complaints. Conversely, **negative sentiment is linked to higher claim amounts, highlighting dissatisfaction.** These findings underscore the value of real-time sentiment monitoring for predicting claims and enhancing customer satisfaction.
+
+In the **Lagged Sentiment Clustering**, we explored the relationship between past customer sentiment (2023 data) and future behaviors (2024 data). **We found that customers with higher Customer Lifetime Value, Monthly Premium Auto payments, and more comprehensive policies exhibit lower sentiment scores, suggesting dissatisfaction among high-value customers. Additionally, lower-income customers displayed slightly higher sentiment scores**, likely reflecting modest expectations and perceived value from simpler policies. These insights demonstrated the potential of lagged sentiment data for predicting customer satisfaction trends and identifying emerging risks.
+
+Through this project, we gained valuable experience in integrating external data with Reddit sentiment analysis and leveraging NLP and clustering techniques for actionable insights. **For future work, we propose focusing on more specific aspects of auto insurance sentiment, such as claims or premiums, instead of general auto insurnace sentiments. Expanding the dataset to include additional subreddits and extending the time period beyond one year** could provide richer data for state-level analyses and enable more precise sentiment predictions for external variables. This approach could further refine our understanding of customer satisfaction and enhance predictive accuracy in the auto insurance industry.
+
+![](images/clustering-01.png)

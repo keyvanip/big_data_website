@@ -1,0 +1,32 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Group 25 Final Project"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Introduction
+      - href: nlp.qmd
+        text: NLP
+      - href: eda.qmd
+        text: EDA
+      - text: ML
+        menu:
+          - href: lagged_ml.ipynb
+            text: Lagged
+          - href: ml-kmean.ipynb
+            text: Current
+      - href: conclusion.qmd
+        text: Conclusion
+        
+
+format:
+  html:
+    theme: minty
+    css: styles.css
+    toc: true
+
+editor: visual
+
