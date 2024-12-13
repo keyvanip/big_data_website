@@ -26,89 +26,83 @@ How do **past customer sentiments** (lagged sentiments) predict or relate to cus
 Using lagged customer sentiments, this question investigates past customer sentiments from June 2023 to December 2023 (from Reddit) and their relationship with auto insurance data for June 2024 to December 2024. This analysis involves exploring how lagged Reddit sentiment trends align with subsequent customer behavior and decisions.
 
 ## Secondary Research Questions
-Our secondary research questions have been explored and answered in our EDA section. 
+
+Our secondary research questions have been explored and answered in our EDA section.
+
 ::: callout-note
 ## Question
+
 How do sentiment trends vary across states over time from June 2023 to July 2024?
 :::
 
 ::: callout-note
 ## Question
+
 Are there specific months with significant sentiment shifts across states?
 :::
 
 ::: callout-note
 ## Question
+
 What is the distribution of sentiment categories (Negative, Neutral, Positive, Strong Negative, Strong Positive) across states?
 :::
 
 ::: callout-note
 ## Question
+
 Are certain states more prone to negative or positive sentiment categories than others?
 :::
 
 ::: callout-note
 ## Question
+
 Which state has the highest percentage of positive sentiment?
 :::
 
 ::: callout-note
 ## Question
+
 How does positive sentiment vary among states, and what insights can be drawn about state-wise sentiment disparities?
 :::
 
 ::: callout-note
 ## Question
+
 How do marital status groups differ in terms of average premium, claim amount, and income?
 :::
 
 ::: callout-note
 ## Question
+
 Does marital status influence the number of customers and financial metrics in the dataset?
 :::
 
 ::: callout-note
 ## Question
+
 Which state has the highest total claim amount, and how does it compare to other states?
 :::
 
 ::: callout-note
 ## Question
+
 How do state-wise claim amounts correlate with customer satisfaction or sentiment?
 :::
 
 ::: callout-note
 ## Question
+
 How do vehicle class preferences vary by marital status and customer lifetime value?
 :::
 
 ::: callout-note
 ## Question
+
 Which marital status group represents the highest customer lifetime value in different vehicle classes?
 :::
 
 ::: callout-note
 ## Question
+
 Are high-value customers concentrated in specific vehicle classes or marital groups?
 :::
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
