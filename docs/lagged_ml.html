@@ -4698,12 +4698,16 @@ require(['plotly'], function(Plotly) {
 <span class="menu-text">Introduction</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./nlp.html"> 
-<span class="menu-text">NLP</span></a>
+    <a class="nav-link" href="./data.html"> 
+<span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./eda.html"> 
 <span class="menu-text">EDA</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./nlp.html"> 
+<span class="menu-text">NLP</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ml" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -4787,8 +4791,7 @@ require(['plotly'], function(Plotly) {
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pyo.init_notebook_mode(connected<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>In today’s competitive insurance market, customer satisfaction is a critical factor for retaining clients and fostering loyalty. Dissatisfaction often arises from unmet expectations, complex policies, and perceived lack of value. By identifying key drivers of customer sentiment, such as customer lifetime value, monthly premium auto payment, and policy complexity, companies can implement targeted strategies to address these issues. This report explores actionable recommendations for improving customer service, simplifying processes, and enhancing transparency, ultimately leading to a more positive customer experience and stronger long-term relationships.</p>
-<p>This analysis investigates customer segmentation using lagged sentiment data from the second half of 2023, combined with external insurance-related data from the corresponding period in 2024. By aligning these datasets, we aim to explore whether past customer sentiments can predict or relate to future customer behavior and insurance choices. The goal is to determine if trends in lagged sentiments foreshadow changes in customer satisfaction, engagement, or risk, offering actionable insights for strategic decision-making in the insurance industry.</p>
+<p>This section explores the role of historical sentiment data from the second half of 2023 in predicting customer behavior and insurance choices in 2024. By combining lagged sentiment scores with external auto insurance metrics, clustering algorithms were employed to identify distinct customer segments and analyze the relationship between past sentiments and later behaviors. This analysis directly addresses our second research question: <strong>How do past customer sentiments (lagged sentiments) predict or relate to customer segments based on their later behavior and insurance choices?</strong> The insights gained highlight the predictive value of historical sentiments in identifying trends in customer satisfaction and engagement, offering actionable recommendations for targeted strategies in the insurance industry.</p>
 <section id="data-munging" class="level2">
 <h2 class="anchored" data-anchor-id="data-munging">Data Munging</h2>
 <div id="cell-5" class="cell" data-execution_count="51">

@@ -6,7 +6,7 @@ code-fold: true
 embed-resources: true
 ---
 
-This exploratory data analysis (EDA) aims to uncover insights from two combined datasets—one containing lagged sentiment data from the second half of the previous year and the other with current sentiment data from the first half of this year. By integrating customer data with sentiment scores, this analysis seeks to explore how customer sentiment correlates with key variables such as Customer Lifetime Value, coverage types, financial metrics, and policy details across different states and time periods. Through the lens of five key research quesßtions, the analysis will identify trends, patterns, and relationships to provide a deeper understanding of the interplay between customer sentiment and various attributes, paving the way for actionable insights.
+This exploratory data analysis (EDA) aims to uncover insights from two combined datasets—one containing lagged sentiment data from the second half of the previous year and the other with current sentiment data from the first half of this year. By integrating customer data with sentiment scores, this analysis seeks to explore how customer sentiment correlates with key variables such as Customer Lifetime Value, coverage types, financial metrics, and policy details across different states and time periods. Through the lens of five key research questions, the analysis will identify trends, patterns, and relationships to provide a deeper understanding of the interplay between customer sentiment and various attributes, paving the way for actionable insights.
 
 ::: callout-caution
 ## Question
@@ -40,6 +40,54 @@ This table above summarizes the distribution of sentiment categories (Negative, 
 :::
 
 The above shows the percentage of positive sentiment among Reddit commenters across five states. While all five states predominantly exhibit negative sentiment overall, Nevada stands out with the highest positive sentiment at 45.45%, suggesting relatively more favorable discussions. In contrast, California has the lowest positive sentiment at just 9.09%, indicating limited positivity in online conversations.
+
+
+```{r, eval=FALSE}
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, avg, count
+
+spark = SparkSession.builder.appName("SummaryTable").getOrCreate()
+
+data_path = "../../data/cleaned_data/external_data_cleaned.csv"  # Replace with the correct path
+df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load(data_path)
+
+df.printSchema()
+
+summary_table = (
+    df.groupBy("Marital Status")
+    .agg(
+        avg("Monthly Premium Auto").alias("avg_premium"),
+        count("Customer").alias("number_of_customers"),
+        avg("Total Claim Amount").alias("avg_claim_amount"),
+        avg("Income").alias("avg_income")
+    )
+    .orderBy("Marital Status")
+)
+
+summary_table.show()
+```
+
+
+```{r, eval=FALSE}
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
+
+spark = SparkSession.builder.appName("TotalClaimAmountByState").getOrCreate()
+
+data_path = "../../data/cleaned_data/external_data_cleaned.csv"
+df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load(data_path)
+
+total_claims_by_state = (
+    df.groupBy("State")
+    .agg(
+        F.sum("Total Claim Amount").alias("total_claim_amount")
+    )
+    .orderBy("State")
+)
+
+total_claims_by_state.show()
+```
+
 
 ```{r, warning=FALSE, message=FALSE,echo=FALSE}
 # Load necessary library
