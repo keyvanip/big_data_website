@@ -1,5 +1,6 @@
 ---
 title: "Sentiment-Driven Customer Segmentation in Auto Insurance"
+subtitle: "Group 25: Parsa Keyvani, Claire Kim, Joe Zhang"
 ---
 
 This project aims to explore customer sentiment in the auto insurance industry by leveraging Reddit discussions and external customer data. By combining lagged and current sentiment data with customer attributes, the goal is to identify patterns and relationships that influence customer behavior and satisfaction. Through clustering analysis, we aim to segment customers based on their sentiment and associated features such as financial, policy-related, and demographic variables. These insights can help businesses better understand customer needs, improve policy offerings, and enhance overall customer experience. The analysis includes exploratory data analysis (EDA), natural language processing (NLP) for sentiment extraction, and machine learning (ML) techniques to cluster customers effectively.

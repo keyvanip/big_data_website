@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Group 25 Final Project"
+  title: "DSAN 6000 Project"
   navbar:
     left:
       - href: index.qmd

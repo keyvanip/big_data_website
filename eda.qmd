@@ -141,8 +141,6 @@ The table above shows that California has the highest total claim amount at \$73
 
 ![](images/joe-eda.png)
 
-![](images/joe2.png)
-
 The chart shows the distribution of Customer Lifetime Value across vehicle classes and marital status. "Four-Door Cars" and SUVs are leading the customer preference, dominated by married customers who also represent a larger share of higher CLV tiers. Single customers are more equitably distributed across vehicle classes but less concentrated in high-value segments, while divorced customers have the smallest representation overall, with fewer high-value customers. Low and medium categories are leading most of the vehicle classes, which shows an opportunity to increase the high-value customers. The businesses can be targeted towards married customers in the high-value vehicle categories of "Four-Door Cars" and SUVs while exploring strategies for engaging and upselling single and divorced customers in niche categories such as "Luxury Cars" and "Luxury SUVs."
 
 ```{r, eval=FALSE}
