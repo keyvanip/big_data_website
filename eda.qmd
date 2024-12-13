@@ -41,7 +41,6 @@ This table above summarizes the distribution of sentiment categories (Negative, 
 
 The above shows the percentage of positive sentiment among Reddit commenters across five states. While all five states predominantly exhibit negative sentiment overall, Nevada stands out with the highest positive sentiment at 45.45%, suggesting relatively more favorable discussions. In contrast, California has the lowest positive sentiment at just 9.09%, indicating limited positivity in online conversations.
 
-
 ```{r, eval=FALSE}
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, avg, count
@@ -67,7 +66,6 @@ summary_table = (
 summary_table.show()
 ```
 
-
 ```{r, eval=FALSE}
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
@@ -87,7 +85,6 @@ total_claims_by_state = (
 
 total_claims_by_state.show()
 ```
-
 
 ```{r, warning=FALSE, message=FALSE,echo=FALSE}
 # Load necessary library
@@ -143,6 +140,8 @@ state_data %>%
 The table above shows that California has the highest total claim amount at \$739,033.1, followed by Oregon at \$580,152.2. Nevada and Washington have relatively lower claim amounts, with Arizona being mid-range among the states.
 
 ![](images/joe-eda.png)
+
+![](images/joe2.png)
 
 The chart shows the distribution of Customer Lifetime Value across vehicle classes and marital status. "Four-Door Cars" and SUVs are leading the customer preference, dominated by married customers who also represent a larger share of higher CLV tiers. Single customers are more equitably distributed across vehicle classes but less concentrated in high-value segments, while divorced customers have the smallest representation overall, with fewer high-value customers. Low and medium categories are leading most of the vehicle classes, which shows an opportunity to increase the high-value customers. The businesses can be targeted towards married customers in the high-value vehicle categories of "Four-Door Cars" and SUVs while exploring strategies for engaging and upselling single and divorced customers in niche categories such as "Luxury Cars" and "Luxury SUVs."
 
@@ -216,7 +215,6 @@ fig.update_layout(title_text="Sentiment Flow Across Subreddits", font_size=10)
 fig.show()
 ```
 
-
 ```{r, echo=FALSE}
 # Load the htmltools package
 library(htmltools)
@@ -233,7 +231,6 @@ This Sankey diagram visualizes the flow of sentiments across three subreddits—
 In the Personalfinance subreddit, Strong Positive sentiment takes up a larger share, indicating that conversations are primarily centered around positive financial experiences and achievements. However, there also exists negative sentiments, revealing that not all discussions in this subreddit are positive. The Cars subreddit shows relatively lower activity compared to the other two, suggesting limited engagement in the topic.
 
 This plot offers valuable insights into how sentiments evolve for each subreddit during the time period, helping to identify the most prominent sentiment categories and trends throughout the year.
-
 
 ```{r, eval=FALSE}
 from plotly.subplots import make_subplots
@@ -347,7 +344,6 @@ for i in range(1, 6):  # Loop through all 5 subplots (polar subplots)
 fig.show()
 ```
 
-
 ```{r, echo=FALSE}
 
 # Path to your HTML file
@@ -362,7 +358,6 @@ To gain a deeper understanding of sentiment trends across subreddits, we calcula
 Interestingly, the Cars subreddit showed a more diverse range of sentiments, with strong positive, positive, and negative sentiments being notably present. This suggests the existence of two distinct groups within the community—those who are satisfied with their cars and those who are dissatisfied. These variations in sentiment could be influenced by factors such as the type of vehicle, the model, or individual experiences related to car ownership.
 
 Overall, the results suggest that while conversations around LegalAdvice and PersonalFinance tend to maintain a steady sentiment, discussions about Cars reflect a broader emotional spectrum, possibly due to varying personal experiences related to vehicle ownership.
-
 
 ```{r, eval=FALSE}
 # Group the data by 'state' and 'general_sentiment' to get the average sentiment and count
@@ -393,7 +388,6 @@ fig.update_layout(
 fig.show()
 ```
 
-
 ```{r, echo=FALSE}
 
 # Path to your HTML file
@@ -402,7 +396,6 @@ html_file <- "/Users/parsakeyvani/Downloads/reddit_viz3.html"
 # Include the HTML file in the notebook
 includeHTML(html_file)
 ```
-
 
 In this bubble chart, we explore whether certain states have a higher number of posts or comments associated with specific sentiments, aiming to identify if any state stands out with a particular sentiment that is notably prevalent. What we observed is that California had the largest number of posts and comments across all sentiment categories, indicating that this state has a significantly higher volume of activity compared to others. This results in an imbalance in the number of posts and comments across the states, with California’s dominance clearly visible. The chart also reveals that most of the posts in California are associated with Strong Negative and Strong Positive sentiments, suggesting that discussions in this state tend to involve extreme emotional tones, whether positive or negative.
 
@@ -434,7 +427,6 @@ fig.update_geos(
 fig.show()
 ```
 
-
 ```{r, echo=FALSE}
 
 # Path to your HTML file
@@ -443,7 +435,6 @@ html_file <- "/Users/parsakeyvani/Downloads/reddit_viz4.html"
 # Include the HTML file in the notebook
 includeHTML(html_file)
 ```
-
 
 Lastly, we wanted to examine how sentiment scores varied across different states over time. To achieve this, we used a geoplot to visualize sentiment distribution by state, showing how sentiment shifted from one month to another. This plot provides a geographical view of sentiment scores across states, allowing us to identify regional trends and how they evolved over the year. By observing the colors representing sentiment intensities and changes over time, we can track fluctuations in sentiment across different areas, revealing patterns of positive, neutral, and negative sentiment across the country.
 
