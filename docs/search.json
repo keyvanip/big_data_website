@@ -11,7 +11,7 @@
     "href": "lagged_ml.html",
     "title": "Lagged Sentiment Clustering",
     "section": "",
-    "text": "Code\n%matplotlib inline\nCode\nimport plotly.offline as pyo\npyo.init_notebook_mode(connected=True)\nThis section explores the role of historical sentiment data from the second half of 2023 in predicting customer behavior and insurance choices in 2024. By combining lagged sentiment scores with external auto insurance metrics, clustering algorithms were employed to identify distinct customer segments and analyze the relationship between past sentiments and later behaviors. This analysis directly addresses our second research question: How do past customer sentiments (lagged sentiments) predict or relate to customer segments based on their later behavior and insurance choices? The insights gained highlight the predictive value of historical sentiments in identifying trends in customer satisfaction and engagement, offering actionable recommendations for targeted strategies in the insurance industry."
+    "text": "Code\n%matplotlib inline\nCode\nimport plotly.offline as pyo\npyo.init_notebook_mode(connected=True)\nThis section explores the role of historical sentiment data from the second half of 2023 in predicting customer behavior and insurance choices in 2024. By combining lagged sentiment scores with external auto insurance metrics, clustering algorithms were employed to identify distinct customer segments and analyze the relationship between past sentiments and later behaviors. This analysis directly addresses our second research question: How do past customer sentiments (lagged sentiments) predict or relate to customer segments based on their later behavior and insurance choices?"
   },
   {
     "objectID": "lagged_ml.html#data-munging",
