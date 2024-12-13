@@ -8,6 +8,9 @@ embed-resources: true
 
 This exploratory data analysis (EDA) aims to uncover insights from two combined datasets—one containing lagged sentiment data from the second half of the previous year and the other with current sentiment data from the first half of this year. By integrating customer data with sentiment scores, this analysis seeks to explore how customer sentiment correlates with key variables such as Customer Lifetime Value, coverage types, financial metrics, and policy details across different states and time periods. Through the lens of five key research questions, the analysis will identify trends, patterns, and relationships to provide a deeper understanding of the interplay between customer sentiment and various attributes, paving the way for actionable insights.
 
+
+### State-by-State Auto Insurance Sentiment Trends
+
 ::: callout-note
 ## Questions
 
@@ -24,6 +27,8 @@ This exploratory data analysis (EDA) aims to uncover insights from two combined 
 :::
 
 The plot illustrates the sentiment trends for five states over the period from June 2023 to July 2024. Nevada consistently exhibits the most negative sentiment, particularly in October and November 2023, where its sentiment scores are significantly lower than other states. In contrast, California tends to show relatively positive sentiment throughout the timeline, with peaks in July 2023 and smaller variations compared to other states. Arizona shows fluctuating sentiment, occasionally trending upwards to positive values in February 2024. States like Oregon and Washington exhibit moderately negative sentiment, though Washington stands out with occasional positive spikes, such as in October 2023. Overall, the months of October and November 2023 demonstrate downward sentiment trends across most states, while February 2024 shows improvement for several states, such as Nevada and Arizona. Similar patterns are seen between Oregon and Washington, which generally move in the same direction during several months.
+
+### State-wise Distribution of Auto Insurance Sentiment Categories
 
 ::: callout-note
 ## Questions
@@ -42,6 +47,8 @@ The plot illustrates the sentiment trends for five states over the period from J
 
 This table above summarizes the distribution of sentiment categories (Negative, Neutral, Positive, Strong Negative, Strong Positive) for each state based on auto insurance-related sentiment data. California, Oregon, and Washington have the highest counts of negative sentiments, implying potential dissatisfaction in these regions. Nevada is the only state with presence of strong positive sentiments, but it is also the state with the presense of highest negative. This suggests that Nevada auto insurance sentiments tend to change rapidly and aggressively from one month to another. Oregon and Arizona exhibit relatively balanced counts among the categories, with more positive sentiments than strong extremes. Overall, all five states have higher average negative sentiments for each month within the year than the positive ones, which suggests all states more dissatisfied auto insurance related customers than the satisfied ones. When aggregating the above table
 
+### Positive Sentiment Comparison Across States
+
 ::: callout-note
 ## Questions
 
@@ -58,6 +65,16 @@ This table above summarizes the distribution of sentiment categories (Negative, 
 :::
 
 The above shows the percentage of positive sentiment among Reddit commenters across five states. While all five states predominantly exhibit negative sentiment overall, Nevada stands out with the highest positive sentiment at 45.45%, suggesting relatively more favorable discussions. In contrast, California has the lowest positive sentiment at just 9.09%, indicating limited positivity in online conversations.
+
+### Summary of Customer Metrics by Marital Status
+
+::: callout-note
+## Questions
+
+1.  How do marital status groups differ in terms of average premium, claim amount, and income?
+
+2.  Does marital status influence the number of customers and financial metrics in the dataset?
+:::
 
 ```{r, eval=FALSE}
 from pyspark.sql import SparkSession
@@ -141,6 +158,17 @@ This table summarizes customer metrics by marital status:
 
 This suggests that marital status significantly influences these financial metrics.
 
+
+### Total Claim Amount by State
+
+::: callout-note
+## Questions
+
+1.  Which state has the highest total claim amount, and how does it compare to other states?
+
+2.  How do state-wise claim amounts correlate with customer satisfaction or sentiment?
+:::
+
 ```{r, warning=FALSE, message=FALSE,echo=FALSE}
 # Create the dataset
 state_data <- data.frame(
@@ -157,9 +185,34 @@ state_data %>%
 
 The table above shows that California has the highest total claim amount at \$739,033.1, followed by Oregon at \$580,152.2. Nevada and Washington have relatively lower claim amounts, with Arizona being mid-range among the states.
 
+
+### Customer Lifetime Value Distribution Across Vehicle Classes and Marital Status
+
+::: callout-note
+## Questions
+
+1.  How do vehicle class preferences vary by marital status and customer lifetime value?
+
+2.  Which marital status group represents the highest customer lifetime value in different vehicle classes?
+
+3.  Are high-value customers concentrated in specific vehicle classes or marital groups?
+
+:::
+
 ![](images/joe-eda.png)
 
 The chart shows the distribution of Customer Lifetime Value across vehicle classes and marital status. "Four-Door Cars" and SUVs are leading the customer preference, dominated by married customers who also represent a larger share of higher CLV tiers. Single customers are more equitably distributed across vehicle classes but less concentrated in high-value segments, while divorced customers have the smallest representation overall, with fewer high-value customers. Low and medium categories are leading most of the vehicle classes, which shows an opportunity to increase the high-value customers. The businesses can be targeted towards married customers in the high-value vehicle categories of "Four-Door Cars" and SUVs while exploring strategies for engaging and upselling single and divorced customers in niche categories such as "Luxury Cars" and "Luxury SUVs."
+
+### Sentiment Flow Across Subreddits
+
+::: callout-note
+## Questions
+
+1.  How does sentiment flow across different subreddits, and which subreddit exhibits the most negative or positive sentiment?
+
+2.  Are there distinct patterns in sentiment distribution within subreddits such as legaladvice, personalfinance, and cars?
+
+:::
 
 ```{r, eval=FALSE}
 # Create a 'month_year' column for easy grouping
@@ -246,7 +299,17 @@ This Sankey diagram visualizes the flow of sentiments across three subreddits—
 
 In the Personalfinance subreddit, Strong Positive sentiment takes up a larger share, indicating that conversations are primarily centered around positive financial experiences and achievements. However, there also exists negative sentiments, revealing that not all discussions in this subreddit are positive. The Cars subreddit shows relatively lower activity compared to the other two, suggesting limited engagement in the topic.
 
-This plot offers valuable insights into how sentiments evolve for each subreddit during the time period, helping to identify the most prominent sentiment categories and trends throughout the year.
+
+### Sentiment Distribution Across Subreddits Over Time
+
+::: callout-note
+## Questions
+
+1.  How does sentiment distribution across subreddits change over time?
+
+2.  Are there consistent trends in sentiment dominance within specific subreddits like LegalAdvice or Cars?
+
+:::
 
 ```{r, eval=FALSE}
 from plotly.subplots import make_subplots
@@ -375,6 +438,19 @@ Interestingly, the Cars subreddit showed a more diverse range of sentiments, wit
 
 Overall, the results suggest that while conversations around LegalAdvice and PersonalFinance tend to maintain a steady sentiment, discussions about Cars reflect a broader emotional spectrum, possibly due to varying personal experiences related to vehicle ownership.
 
+
+### Count of Posts/Comments in Each State by Sentiment Type
+
+::: callout-note
+## Questions
+
+1.  Which states have the highest number of posts or comments across sentiment categories?
+
+2.  Do certain states exhibit more extreme sentiments (Strong Positive or Strong Negative)?
+
+:::
+
+
 ```{r, eval=FALSE}
 # Group the data by 'state' and 'general_sentiment' to get the average sentiment and count
 state_sentiment = reddit_df.groupby(['state', 'general_sentiment']).agg(
@@ -417,7 +493,17 @@ In this bubble chart, we explore whether certain states have a higher number of 
 
 When looking at other states, we notice that Strong Negative sentiment is the most prevalent sentiment. This indicates that in all of the five states, the conversations are largely focused on negative experiences or challenging situations. In contrast to California, where strong positive and negative sentiments are more balanced, other states seem to lean more towards negative sentiments.
 
-Overall, the plot provides a clear visualization of how sentiments are distributed across different states, with notable trends such as California’s high volume of extreme sentiments and the dominance of Strong Negative sentiment in most other states. This allows us to gain valuable insights into how different states engage with various emotional tones in online discussions throughout the year.
+### Geoplot for Monthly Sentiment Score by State
+
+::: callout-note
+## Questions
+
+1.  How does sentiment score distribution vary geographically across the United States?
+
+2.  Are there specific regions or states that show consistent positive or negative sentiment trends over time?
+
+:::
+
 
 ```{r, eval=FALSE}
 # Plot the choropleth map for the selected year
