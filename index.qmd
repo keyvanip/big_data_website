@@ -26,7 +26,7 @@ How do **past customer sentiments** (lagged sentiments) predict or relate to cus
 Using lagged customer sentiments, this question investigates past customer sentiments from June 2023 to December 2023 (from Reddit) and their relationship with auto insurance data for June 2024 to December 2024. This analysis involves exploring how lagged Reddit sentiment trends align with subsequent customer behavior and decisions.
 
 ## Secondary Research Questions
-
+Our secondary research questions have been explored and answered in our EDA section. 
 ::: callout-note
 ## Question
 How do sentiment trends vary across states over time from June 2023 to July 2024?

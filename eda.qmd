@@ -8,10 +8,12 @@ embed-resources: true
 
 This exploratory data analysis (EDA) aims to uncover insights from two combined datasets—one containing lagged sentiment data from the second half of the previous year and the other with current sentiment data from the first half of this year. By integrating customer data with sentiment scores, this analysis seeks to explore how customer sentiment correlates with key variables such as Customer Lifetime Value, coverage types, financial metrics, and policy details across different states and time periods. Through the lens of five key research questions, the analysis will identify trends, patterns, and relationships to provide a deeper understanding of the interplay between customer sentiment and various attributes, paving the way for actionable insights.
 
-::: callout-caution
-## Question
+::: callout-note
+## Questions
 
-How do state-wise sentiment trends change over time within the selected time periods?
+1.  How do sentiment trends vary across states over time from June 2023 to July 2024?
+
+2.  Are there specific months with significant sentiment shifts across states?
 :::
 
 ::: {#datawrapper-vis-oTFId style="min-height:641px"}
@@ -23,6 +25,14 @@ How do state-wise sentiment trends change over time within the selected time per
 
 The plot illustrates the sentiment trends for five states over the period from June 2023 to July 2024. Nevada consistently exhibits the most negative sentiment, particularly in October and November 2023, where its sentiment scores are significantly lower than other states. In contrast, California tends to show relatively positive sentiment throughout the timeline, with peaks in July 2023 and smaller variations compared to other states. Arizona shows fluctuating sentiment, occasionally trending upwards to positive values in February 2024. States like Oregon and Washington exhibit moderately negative sentiment, though Washington stands out with occasional positive spikes, such as in October 2023. Overall, the months of October and November 2023 demonstrate downward sentiment trends across most states, while February 2024 shows improvement for several states, such as Nevada and Arizona. Similar patterns are seen between Oregon and Washington, which generally move in the same direction during several months.
 
+::: callout-note
+## Questions
+
+1.  What is the distribution of sentiment categories (Negative, Neutral, Positive, Strong Negative, Strong Positive) across states?
+
+2.  Are certain states more prone to negative or positive sentiment categories than others?
+:::
+
 ::: {#datawrapper-vis-Igtmk style="min-height:261px"}
 ```{=html}
 <script type="text/javascript" defer src="https://datawrapper.dwcdn.net/Igtmk/embed.js" charset="utf-8" data-target="#datawrapper-vis-Igtmk"></script>
@@ -31,6 +41,14 @@ The plot illustrates the sentiment trends for five states over the period from J
 :::
 
 This table above summarizes the distribution of sentiment categories (Negative, Neutral, Positive, Strong Negative, Strong Positive) for each state based on auto insurance-related sentiment data. California, Oregon, and Washington have the highest counts of negative sentiments, implying potential dissatisfaction in these regions. Nevada is the only state with presence of strong positive sentiments, but it is also the state with the presense of highest negative. This suggests that Nevada auto insurance sentiments tend to change rapidly and aggressively from one month to another. Oregon and Arizona exhibit relatively balanced counts among the categories, with more positive sentiments than strong extremes. Overall, all five states have higher average negative sentiments for each month within the year than the positive ones, which suggests all states more dissatisfied auto insurance related customers than the satisfied ones. When aggregating the above table
+
+::: callout-note
+## Questions
+
+1.  Which state has the highest percentage of positive sentiment?
+
+2.  How does positive sentiment vary among states, and what insights can be drawn about state-wise sentiment disparities?
+:::
 
 ::: {.flourish-embed .flourish-scatter data-src="visualisation/20704928"}
 ```{=html}
